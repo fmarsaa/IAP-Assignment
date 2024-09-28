@@ -1,20 +1,22 @@
 <?php
 
-$host = 'localhost';  
-$dbname = 'signup';  
-$username = 'root'; 
-$password = '';  
+require_once 'Database.php';
 
-try {
-    
-    $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8";
-    
-    $pdo = new PDO($dsn, $username, $password);
+class User {
+    private $conn;
 
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    public function __construct($db) {
+        $this->conn = $db;
+    }
 
-    echo "Connected successfully to the database!";
-} catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    public function createUser($first_name, $last_name, $email, $username, $password) {
+        // Code to store user in database will be added later
+    }
 }
+
+// Create a new user instance
+$database = new Database();
+$db = $database->connect();
+$user = new User($db);
+
 ?>
