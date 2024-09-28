@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Database.php';
+
 class User {
     private $conn;
 
@@ -8,13 +10,11 @@ class User {
     }
 
     public function createUser($first_name, $last_name, $email, $username, $password) {
-        // Previous code...
+        
     }
 
     public function readUsers() {
-        $sql = "SELECT * FROM users";
-        $stmt = $this->conn->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
     }
 }
 
