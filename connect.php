@@ -1,5 +1,4 @@
 <?php
-
 require_once 'Database.php';
 
 class User {
@@ -10,13 +9,24 @@ class User {
     }
 
     public function createUser($first_name, $last_name, $email, $username, $password) {
-        // Code to store user in database will be added later
+        $sql = "INSERT INTO users (first_name, last_name, email, username, password) 
+                VALUES (:first_name, :last_name, :email, :username, :password)";
+        $stmt = $this->conn->prepare($sql);
+
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt->bindParam(':first_name', $first_name);
+        $stmt->bindParam(':last_name', $last_name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $hashed_password);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+
+        return false;
     }
 }
-
-// Create a new user instance
-$database = new Database();
-$db = $database->connect();
-$user = new User($db);
 
 ?>
