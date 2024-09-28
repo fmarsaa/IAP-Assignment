@@ -7,7 +7,8 @@ try {
         // Previous code...
 
         if ($user->createUser($first_name, $last_name, $email, $username, $password)) {
-            echo "User registered successfully!";
+            header("Location: login.php");
+            exit;
         } else {
             echo "Failed to register user.";
         }
