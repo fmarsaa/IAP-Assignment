@@ -1,31 +1,22 @@
 <?php
-require_once 'Database.php';
 
-class User {
-    private $conn;
+require_once 'User.php';
 
-    public function __construct($db) {
-        $this->conn = $db;
-    }
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $email = $_POST['email'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    public function createUser($first_name, $last_name, $email, $username, $password) {
-        $sql = "INSERT INTO users (first_name, last_name, email, username, password) 
-                VALUES (:first_name, :last_name, :email, :username, :password)";
-        $stmt = $this->conn->prepare($sql);
+    $database = new Database();
+    $db = $database->connect();
+    $user = new User($db);
 
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        $stmt->bindParam(':first_name', $first_name);
-        $stmt->bindParam(':last_name', $last_name);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $hashed_password);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-
-        return false;
+    if ($user->createUser($first_name, $last_name, $email, $username, $password)) {
+        echo "User registered successfully!";
+    } else {
+        echo "Failed to register user.";
     }
 }
 
