@@ -9,7 +9,7 @@ class User {
         $this->conn = $db;
     }
 
-    public function createUser($first_name, $last_name, $email, $username, $password) {
+    public function createUser($fname, $lname, $email, $username, $password) {
         // Validate email
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new Exception("Invalid email format");
@@ -29,8 +29,8 @@ class User {
         $stmt = $this->conn->prepare($sql);
 
         // Bind parameters
-        $stmt->bindParam(':first_name', $first_name);
-        $stmt->bindParam(':last_name', $last_name);
+        $stmt->bindParam(':fname', $fname);
+        $stmt->bindParam(':lname', $lname);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':password', $hashed_password);

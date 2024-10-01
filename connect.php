@@ -1,20 +1,26 @@
 <?php
 
 require_once 'User.php';
+require_once 'Database.php';
 
-try {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Previous code...
+$database = new Database();
+$conn = $database->connect();
 
-        if ($user->createUser($first_name, $last_name, $email, $username, $password)) {
-            header("Location: login.php");
-            exit;
-        } else {
-            echo "Failed to register user.";
-        }
+$user = new User($conn);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $first_name = $_POST['fname'];
+    $last_name = $_POST['lname'];
+    $email = $_POST['email'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    if ($user->createUser($fname, $lname, $email, $username, $password)) {
+        header("Location: login.php");
+        exit;
+    } else {
+        echo "Failed to register user.";
     }
-} catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
 }
 
 ?>
