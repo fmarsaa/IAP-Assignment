@@ -9,8 +9,8 @@ $conn = $database->connect();
 $user = new User($conn);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $first_name = $_POST['fname'];
-    $last_name = $_POST['lname'];
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
     $email = $_POST['email'];
     $username = $_POST['username'];
     $password = $_POST['password'];
