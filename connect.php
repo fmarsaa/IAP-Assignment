@@ -16,10 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if ($user->createUser($fname, $lname, $email, $username, $password)) {
-        header("Location: login.php");
-        exit;
+        // Instead of redirecting, display a success message using Bootstrap
+        echo "<div class='alert alert-success text-center' role='alert'>
+                Signup was successful! You can now log in.
+              </div>";
     } else {
-        echo "Failed to register user.";
+        echo "<div class='alert alert-danger text-center' role='alert'>
+                Failed to register user. Please try again.
+              </div>";
     }
 }
 

@@ -24,7 +24,7 @@ class User {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
         // Prepare SQL statement
-        $sql = "INSERT INTO users (fname, lname, email, username, password) 
+        $sql = "INSERT INTO registration (fname, lname, email, username, password) 
                 VALUES (:fname, :lname, :email, :username, :password)";
         $stmt = $this->conn->prepare($sql);
 
