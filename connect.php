@@ -30,6 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Passwords do not match.";
         exit();
     }
+    $query = "SELECT * FROM registration WHERE email = :email";
+$stmt = $db->prepare($query);
+$stmt->bindParam(':email', $email);
+$stmt->execute();
+
+if ($stmt->rowCount() > 0) {
+    echo "Email already registered.";
+    exit();
+}
+
 }
 
 ?>
