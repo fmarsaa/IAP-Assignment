@@ -24,6 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Failed to register user. Please try again.
               </div>";
     }
+    $confirm_password = $_POST['confirm_password'];
+    
+    if ($password !== password_hash($confirm_password, PASSWORD_DEFAULT)) {
+        echo "Passwords do not match.";
+        exit();
+    }
 }
 
 ?>
