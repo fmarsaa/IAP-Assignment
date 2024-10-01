@@ -16,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if ($user->createUser($fname, $lname, $email, $username, $password)) {
-        // Instead of redirecting, display a success message using Bootstrap
         echo "<div class='alert alert-success text-center' role='alert'>
                 Signup was successful! You can now log in.
               </div>";
