@@ -40,7 +40,7 @@ class User {
     }
 
     public function readUsers() {
-        $sql = "SELECT * FROM users";
+        $sql = "SELECT * FROM registration";
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
