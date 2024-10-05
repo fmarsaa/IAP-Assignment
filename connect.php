@@ -1,45 +1,36 @@
 <?php
-
-require_once 'User.php';
+require_once 'user.php'; // Include the user class
 require_once 'Database.php';
 
+// Establish a connection to the database
 $database = new Database();
 $conn = $database->connect();
 
 $user = new User($conn);
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $email = $_POST['email'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    try {
+        // Capture the form input
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
+        $email = $_POST['email'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $confirm_password = $_POST['confirm_password'];
 
-    if ($user->createUser($fname, $lname, $email, $username, $password)) {
-        echo "<div class='alert alert-success text-center' role='alert'>
-                Signup was successful! You can now log in.
-              </div>";
-    } else {
-        echo "<div class='alert alert-danger text-center' role='alert'>
-                Failed to register user. Please try again.
-              </div>";
+        // Validate password match
+        if ($password !== $confirm_password) {
+            throw new Exception("Passwords do not match.");
+        }
+
+        // Create a new user and send the verification code
+        if ($user->createUser($fname, $lname, $email, $username, $password)) {
+            echo "User registered successfully! Please check your email for the verification code.";
+        } else {
+            echo "Error registering user.";
+        }
+    } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
     }
-    $confirm_password = $_POST['confirm_password'];
-    
-    if ($password !== password_hash($confirm_password, PASSWORD_DEFAULT)) {
-        echo "Passwords do not match.";
-        exit();
-    }
-    $query = "SELECT * FROM registration WHERE email = :email";
-$stmt = $db->prepare($query);
-$stmt->bindParam(':email', $email);
-$stmt->execute();
-
-if ($stmt->rowCount() > 0) {
-    echo "Email already registered.";
-    exit();
 }
-
-}
-
 ?>
