@@ -1,7 +1,7 @@
 <?php
 
 require_once 'Database.php';
-require 'vendor/autoload.php'; 
+require 'vendor/autoload.php'; // PHPMailer autoload
 
 class User {
     private $conn;
@@ -35,13 +35,7 @@ class User {
         if ($stmt->execute()) {
             // User inserted successfully, generate and send the verification code
             $userId = $this->conn->lastInsertId();
-            
-            // Send verification code and redirect to verification page
-            $this->sendVerificationCode($email, $userId);
-            
-            // Redirect to the verification page
-            header("Location: verification.php");
-            exit(); // Stop further execution
+            return $this->sendVerificationCode($email, $userId);
         }
 
         return false;
@@ -80,8 +74,8 @@ class User {
             $mail->addAddress($email);
 
             $mail->isHTML(true);
-            $mail->Subject = 'HEYY LOVE <3 !!'; 
-            $mail->Body = "<strong>STOP EATING SHAWARMA'S EVERYDAY: WHEN THE WORLD (ME) NEEDED HIM MOST HE VANISHED :( ATLEAST IT'S WORKING NOW:)  $verificationCode</strong>";
+            $mail->Subject = 'Your Verification Code';
+            $mail->Body = "Your verification code is: <strong>$verificationCode</strong>";
 
             $mail->send();
             return true;
@@ -90,3 +84,4 @@ class User {
         }
     }
 }
+
