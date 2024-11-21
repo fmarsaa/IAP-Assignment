@@ -5,6 +5,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+//Load Composer's autoloader
 require 'vendor/autoload.php';
 
 //Create an instance; passing `true` enables exceptions
@@ -12,26 +13,34 @@ $mail = new PHPMailer(true);
 
 try {
     //Server settings
-    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      
-    $mail->isSMTP();                                      
-    $mail->Host       = 'smtp.gmail.com';                   
-    $mail->SMTPAuth   = true;                     
-    $mail->Username   = 'fatumamm99@gmail.com';                    
-    $mail->Password   = 'mjdn nvnf qkcq iiyi';                           
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
-    $mail->Port       = 587;                                  
+    $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'fatumamm99@gmail.com';                     //SMTP username
+    $mail->Password   = 'mjdn nvnf qkcq iiyi';                               //SMTP password
+    $mail->SMTPSecure = 'tls';            //Enable implicit TLS encryption
+    $mail->Port       = 587;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
-    $mail->setFrom('ics@gmail.com', 'Fatma');
-    $mail->addAddress('musakasamuel@gmail.com', 'Benjamin Musaka');     
+    $mail->setFrom('ics@gmail.com', 'ICS Team');
+    $mail->addAddress('fatmamarsa2@gmail.com', 'Benjamin Musaka');     //Add a recipient
+    // $mail->addAddress('ellen@example.com');               //Name is optional
+    // $mail->addReplyTo('info@example.com', 'Information');
+    // $mail->addCC('cc@example.com');
+    // $mail->addBCC('bcc@example.com');
 
-    $mail->isHTML(true);                              
-    $mail->Subject = 'Your Verification Code';
-    $mail->Body    = "Your verification code is: <strong>$code</strong>";
-   
+    //Attachments
+    // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+    // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'This is an ICS test';
+    $mail->Body    = 'Your secret code is here <b>45621</b>';
+    // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
-    echo 'Verification code sent to ' . $email;
     echo 'Message has been sent';
 } catch (Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
